@@ -1,1 +1,26 @@
-<p>alert works!</p>
+
+<div [class.mat-elevation-z8]>
+    <!-- mat toobar primary background color #3f51b5, foreground color #fff, got from chrome -->
+    <!-- padding top, right, bottom left -->
+    <div style="background-color: #3f51b5; color: #fff; height: 32px; padding: 2px 5px 2px 5px;">
+            <span style="vertical-align: middle">
+                <img *ngIf="messageStatus == 0" align="middle" src="assets/thumbnails/greenCircle-24.png"/>
+                <img *ngIf="messageStatus == 1" align="middle" src="assets/thumbnails/yellowCircle-24.png"/>
+                <img *ngIf="messageStatus == 2" align="middle" src="assets/thumbnails/alertIcon2.png"/>
+                <img *ngIf="messageStatus >= 3" align="middle" src="assets/thumbnails/redCircle-24.png"/>
+            </span>
+            <span style="vertical-align: top; font-size: 24px;">
+                &nbsp;{{messageTitle}}
+            </span>
+    </div>
+
+    <mat-dialog-content>
+        <p style="white-space: pre-wrap;">
+            {{messageText}}
+        </p>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="center">
+        <button class="mat-raised-button" (click)="close()">OK</button>
+    </mat-dialog-actions>
+</div>
