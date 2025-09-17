@@ -1,6 +1,6 @@
 import { Directive } from '@angular/core';
-import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
-import {AlertComponent} from '../dialogs/alert-component/alert-component';
+import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
+import { AlertComponent } from '../dialogs/alert-component/alert-component';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Directive({
@@ -8,7 +8,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class AlertDirective {
 
-  constructor(private dialog: MatDialog) { }
+  constructor(public dialog: MatDialog) { }
       /* status values: 0 - green, 1 - yellow, 2 - alert, 3 or more - red */
       openDialog(aMessageTitle: string, aMessage: string, aStatus: number) {
 
