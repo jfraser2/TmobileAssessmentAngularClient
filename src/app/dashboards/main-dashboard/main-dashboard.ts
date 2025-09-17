@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { AppDefaults } from '../../../environments/app.defaults';
 import { AlertDirective } from '../../directives/alert-directive';
-import { Router, ActivatedRoute } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
+
 
 
 @Component({
   selector: 'app-main-dashboard',
-  imports: [],
+  imports: [RouterOutlet],
   templateUrl: './main-dashboard.html',
   styleUrl: './main-dashboard.css',
   providers: [AlertDirective]  
