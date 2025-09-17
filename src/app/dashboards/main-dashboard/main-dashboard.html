@@ -1,4 +1,10 @@
 <h1 class="full-width" align="center">
   {{appTitle}}
 </h1>
-<router-outlet></router-outlet>
+
+<mat-toolbar color="primary">
+    <mat-toolbar-row class="bordered-row">
+        <button mat-raised-button  routerLink="/task-list">List All Tasks</button>
+        <button mat-raised-button  routerLink="/task-status-list">List By Task Status</button>
+    </mat-toolbar-row>
+</mat-toolbar>

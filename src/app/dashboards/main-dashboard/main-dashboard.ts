@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { AppDefaults } from '../../../environments/app.defaults';
 import { AlertDirective } from '../../directives/alert-directive';
-import { RouterOutlet } from '@angular/router';
-
+import { RouterLink } from '@angular/router';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 
 @Component({
   selector: 'app-main-dashboard',
-  imports: [RouterOutlet],
+  imports: [RouterLink, MatToolbarModule],
   templateUrl: './main-dashboard.html',
   styleUrl: './main-dashboard.css',
   providers: [AlertDirective]  
