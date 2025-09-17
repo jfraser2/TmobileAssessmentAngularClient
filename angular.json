@@ -13,8 +13,6 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
-            "baseHref": "./",
-			"deployUrl": "./",			
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
