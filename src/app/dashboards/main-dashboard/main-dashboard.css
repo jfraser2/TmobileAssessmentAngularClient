@@ -2,7 +2,7 @@
   flex: 1 1 auto; /* This makes the span take up available space */
 }
 
-.bordered-row {
+.bordered-toolbar-row {
   border-bottom: 1px solid #ccc; /* solid line at bottom with color change to any desired color and thickness */
   display: flex;
   justify-content: center; /* Centers items horizontally */
