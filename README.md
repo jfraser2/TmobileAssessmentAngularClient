@@ -23,7 +23,7 @@ Angular CLI includes powerful code scaffolding tools. Example commands to create
 ng new my-angular-app
 ng add @angular/material
 ng generate environments
-ng generate component <folder>/component-name
+ng generate component <folder>/component-name --flat
 ng generate directive <folder>/directive-name
 ng generate class <folder>/model-name
 ng generate service <folder>/service-name
