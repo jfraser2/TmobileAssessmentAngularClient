@@ -9,6 +9,8 @@ To start a local development server, run:
 ```bash
 npm run start
 ng serve
+
+scripts run by npm are configured in package.json
 ```
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
@@ -20,7 +22,14 @@ Angular CLI includes powerful code scaffolding tools. Example commands to create
 ```bash
 ng new my-angular-app
 ng add @angular/material
-ng generate component folder/component-name
+ng generate environments
+ng generate component <folder>/component-name
+ng generate directive <folder>/directive-name
+ng generate class <folder>/model-name
+ng generate service <folder>/service-name
+
+more commands url:
+https://stackoverflow.com/questions/53003483/why-no-angular-cli-generate-command-for-model-in-angular-project
 ```
 
 For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
@@ -34,7 +43,7 @@ ng generate --help
 To build the project run:
 
 ```bash
-ng build  --configuration development --base-href ./ --deploy-url ./
+ng build --configuration development --base-href ./ --deploy-url ./
 ng build
 ```
 
