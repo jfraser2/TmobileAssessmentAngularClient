@@ -8,7 +8,7 @@ To start a local development server, run:
 
 ```bash
 npm run start
-ng serve
+ng serve --port 4200 --proxy-config proxy.conf.json
 
 scripts run by npm are configured in package.json
 ```
