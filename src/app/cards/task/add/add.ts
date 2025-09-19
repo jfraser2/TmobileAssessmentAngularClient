@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroupDirective, FormGroup, Validators } from '@angular/forms';
 import { AlertDirective } from '../../../directives/alert-directive';
 import { AddTask } from '../../../services/task/add-task';
 import { AddTaskData } from '../../../models/add-task-data';
@@ -15,7 +15,7 @@ import { CommonModule } from '@angular/common'; // Import CommonModule
   imports: [CommonModule, FormsModule, ReactiveFormsModule, MatInputModule, MatFormFieldModule, MatCardModule],
   templateUrl: './add.html',
   styleUrl: './add.css',
-  providers: [AddTask, AlertDirective]  
+  providers: [AddTask, AlertDirective, FormGroupDirective]  
 })
 export class Add  implements OnInit {
 	
@@ -23,6 +23,7 @@ export class Add  implements OnInit {
 	addTaskForm: FormGroup;
 	loading = false;
 	appDef = AppDefaults;
+	@ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;	
 	
 	constructor(public addTaskService: AddTask, public alertDirective: AlertDirective) {
 	  this.sectionTitle ="Create New Task";
@@ -75,10 +76,24 @@ export class Add  implements OnInit {
     }
 
     public submitFormData = (formValueObject) => {
-        if (this.addTaskForm.valid) {
-            this.loading = true;
-            this.executeAddTask(formValueObject);
-        }
+		if (this.addTaskForm.invalid) {
+			console.log('Form is invalid. Please correct errors.');
+			return;
+		}
+		
+        this.loading = true;
+        this.executeAddTask(formValueObject);
     }
+	
+	public clearFormData = () => {
+		
+		let control = null;
+		
+		this.addTaskForm.reset();
+		// Reset the form group directive to mark controls as pristine/untouched
+		this.formGroupDirective.resetForm(); 		
+		
+		return;
+	}
 
 }
