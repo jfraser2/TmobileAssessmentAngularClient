@@ -3,6 +3,7 @@ import { App } from './app';
 import { MainDashboard } from './dashboards/main-dashboard/main-dashboard';
 import { FindByStatus } from './cards/task/list/find-by-status';
 import { ListAll } from './cards/task/list/list-all';
+import { Add } from './cards/task/add/add';
 
 export const routes: Routes = [
   {
@@ -10,12 +11,19 @@ export const routes: Routes = [
     component: MainDashboard
   },
   {
+    path: 'app-add',
+    component:  Add,
+	outlet: 'entirePageContent' 	
+  },
+  {
     path: 'app-find-by-status',
-    component: FindByStatus
+    component: FindByStatus,
+	outlet: 'entirePageContent' 	
   },
   {
     path: 'app-list-all',
-    component:  ListAll
+    component:  ListAll,
+	outlet: 'entirePageContent' 	
   },
   {
     path: 'app-root',
