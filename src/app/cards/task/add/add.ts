@@ -87,8 +87,6 @@ export class Add  implements OnInit {
 	
 	public clearFormData = () => {
 		
-		let control = null;
-		
 		this.addTaskForm.reset();
 		// Reset the form group directive to mark controls as pristine/untouched
 		this.formGroupDirective.resetForm(); 		
