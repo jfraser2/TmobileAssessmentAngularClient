@@ -2,6 +2,8 @@ import { Directive } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
 import { AlertComponent } from '../dialogs/alert-component/alert-component';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ValidationErrors } from '../models/validation-errors';
+import { ValidationErrorDetail } from '../models/validation-error-detail';
 
 @Directive({
   selector: '[appAlertDirective]'
@@ -39,5 +41,45 @@ export class AlertDirective {
 
           return dialogRef;
       }
+	  
+	  errorToString(anError: object): string {
+
+	      let retVar = 'Unknown Error';
+
+	      if (null != anError) {
+	          if (typeof anError === 'string') {
+	              retVar = anError;
+	          } else {
+	              if (anError instanceof HttpErrorResponse) {
+	                  const tempVar = anError as HttpErrorResponse;
+	                  if (null != tempVar.message) {
+	                      retVar = tempVar.message;
+	                  } else {
+	                      if (null != tempVar.error && null != tempVar.error.message) {
+	                          retVar = tempVar.error.message;
+	                      }
+	                  }
+	              } else { // end error Type HttpErrorResponse
+	                  // looking for Validation Errors
+	                  const errorList = anError as ValidationErrors;
+	                  if (null != errorList.subErrors && errorList.subErrors.length > 0) {
+	                      let tempReturn = 'The listed fields are NOT valid: \n';
+	                      errorList.subErrors.forEach(element => {
+	                          tempReturn =  tempReturn + 'Field: ' + element.field + ' Rejected Value: ' + element.rejectedValue;
+	                          tempReturn = tempReturn + '\n';
+	                      });
+	                      retVar = tempReturn;
+	                  } else {
+	                      if (null != errorList.message) {
+	                          retVar = errorList.message;
+	                      }
+	                  }
+	              }
+	          }
+	      }
+
+	      return retVar;
+	  }
+	  
 
 }
