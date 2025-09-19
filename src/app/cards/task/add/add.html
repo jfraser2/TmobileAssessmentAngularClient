@@ -1,1 +1,35 @@
 <h2 class="full-width" align="center"> {{sectionTitle}} </h2>
+
+<mat-card>
+
+    <form [formGroup]="addTaskForm" validate (ngSubmit)="submitFormData(addTaskForm.value)" fxLayout="column wrap"
+        fxLayoutAlign="center center" fxLayoutGap="10px" autocomplete="off">
+
+        <mat-card-content class="form-container">
+            
+            <!-- CONTENT HERE -->
+            <mat-form-field>
+                <mat-label>Task Name</mat-label>
+                <input  matInput  type="text" placeholder="Enter: Task Name" formControlName="taskName" required>
+                <mat-error *ngIf="hasError('taskName', 'required')">Task Name is required</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Task Description</mat-label>
+                <input  matInput type="text" placeholder="Enter: Task Description" formControlName="taskDescription">
+                <mat-error *ngIf="hasError('taskDescription', 'Max Length Limit')">Task Description Length is limited</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Task Status</mat-label>
+                <input  matInput  type="text" placeholder="Enter: Task Status" formControlName="taskStatus"  required>
+                <mat-error *ngIf="hasError('taskStatus', 'required')">Task Status is required</mat-error>
+            </mat-form-field>
+        </mat-card-content>
+
+        <mat-card-actions class="form-button-row">
+            <!-- REGISTER BUTTON -->
+            <button mat-raised-button type="submit" [disabled]="loading" color="primary">Submit Task</button> 
+            <img *ngIf="loading" src="{{appDef.loadingImagePart1}}{{appDef.loadingImagePart2}}{{appDef.loadingImagePart3}}{{appDef.loadingImagePart4}}{{appDef.loadingImagePart5}}{{appDef.loadingImagePart6}}{{appDef.loadingImagePart7}}{{appDef.loadingImagePart8}}{{appDef.loadingImagePart9}}" />
+        </mat-card-actions>
+    </form>
+</mat-card>
+

@@ -80,6 +80,5 @@ export class AlertDirective {
 
 	      return retVar;
 	  }
-	  
 
 }
