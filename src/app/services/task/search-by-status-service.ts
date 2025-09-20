@@ -16,13 +16,13 @@ import { SearchByStatusData } from '../../models/search-by-status-data';
 export class SearchByStatusService {
    constructor(private http: HttpClient) { }
 
-   getFindByStatusPromise(findTasks:  SearchByStatusData) {
+   getFindByStatusPromise(findTaskStatus:  string) {
        const requestTimeout = AppDefaults.requestTimeout;
        const requestTimeoutMessage = AppDefaults.requestTimeoutMessage;
        const goodResponse = AppDefaults.goodResponse;
        const serverPrefix = environment.serverUrlPrefix;
 
-	   const requestUrl = serverPrefix + '/v1/findByTaskStatus/' + findTasks.taskStatus;
+	   const requestUrl = serverPrefix + '/v1/findByTaskStatus/' + findTaskStatus;
 
        /* Json IN, Json OUT rest service */
        let httpHeader = new HttpHeaders();
