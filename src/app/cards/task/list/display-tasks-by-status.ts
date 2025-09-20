@@ -5,11 +5,12 @@ import { CommonModule } from '@angular/common'; // Import CommonModule for ngIf
 import { AlertDirective } from '../../../directives/alert-directive';
 import { SearchByStatusService } from '../../../services/task/search-by-status-service';
 import { AppDefaults } from '../../../../environments/app.defaults';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableModule, MatTableDataSource } from '@angular/material/table';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-display-tasks-by-status',
-  imports: [CommonModule, RouterLink, MatTableModule],
+  imports: [CommonModule, RouterLink, MatTableModule, ScrollingModule],
   templateUrl: './display-tasks-by-status.html',
   styleUrl: './display-tasks-by-status.css',
   providers: [SearchByStatusService, AlertDirective]  
@@ -26,6 +27,7 @@ export class DisplayTasksByStatus implements OnInit, OnDestroy {
 	public totalRows : number = 0;
 	matColumnDefIds : string[];
 	taskJavascriptArrayData: any[];
+	dataSource = new MatTableDataSource<any>();	
 	
 	constructor(public router: Router, public currentRoute: ActivatedRoute, public searchByStatusService: SearchByStatusService, public alertDirective: AlertDirective) {
 		this.matColumnDefIds = ['id', 'taskName', 'taskDescription', 'taskStatus', 'taskCreateDat']; // Define the matColumnDefIds
@@ -45,6 +47,7 @@ export class DisplayTasksByStatus implements OnInit, OnDestroy {
 	  } else {
 		// create an array of JavaScript objects 
 		this.taskJavascriptArrayData = JSON.parse(this.taskJsonData);
+		this.dataSource.data = this.taskJavascriptArrayData;
 		this.totalRows = this.taskJavascriptArrayData.length;
 	    this.isLoaded = true;
 	  }
@@ -83,5 +86,9 @@ export class DisplayTasksByStatus implements OnInit, OnDestroy {
 	//        this.loading = false;
 
 	}
+	
+	public trackByFn(index: number, item: any): number {
+	  return item.id; // Or a unique identifier for your items
+	}  	
 
 }
