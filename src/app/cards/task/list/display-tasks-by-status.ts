@@ -7,6 +7,7 @@ import { SearchByStatusService } from '../../../services/task/search-by-status-s
 import { AppDefaults } from '../../../../environments/app.defaults';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { TaskRow } from '../../../models/task-row';
 
 @Component({
   selector: 'app-display-tasks-by-status',
@@ -26,11 +27,11 @@ export class DisplayTasksByStatus implements OnInit, OnDestroy {
 	public isLoaded : boolean =  false;	
 	public totalRows : number = 0;
 	matColumnDefIds : string[];
-	taskJavascriptArrayData: any[];
-	dataSource = new MatTableDataSource<any>();	
+	taskJavascriptArrayData: TaskRow[];
+	dataSource = new MatTableDataSource<TaskRow>();	
 	
 	constructor(public router: Router, public currentRoute: ActivatedRoute, public searchByStatusService: SearchByStatusService, public alertDirective: AlertDirective) {
-		this.matColumnDefIds = ['id', 'taskName', 'taskDescription', 'taskStatus', 'taskCreateDat']; // Define the matColumnDefIds
+		this.matColumnDefIds = ['id', 'taskName', 'taskDescription', 'taskStatus', 'taskCreateDate']; // Define the matColumnDefIds
 	}
 	
 	ngOnInit() {
@@ -87,7 +88,7 @@ export class DisplayTasksByStatus implements OnInit, OnDestroy {
 
 	}
 	
-	public trackByFn(index: number, item: any): number {
+	public trackByFn(index: number, item: TaskRow): number {
 	  return item.id; // Or a unique identifier for your items
 	}  	
 
