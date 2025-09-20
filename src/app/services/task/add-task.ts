@@ -48,13 +48,13 @@ export class AddTask {
         let aPromise = null;
 
         aPromise = new Promise((resolve, reject) => {
-            this.http.post<any>(serverPrefix + '/create', jsonString, requestOptions)
+            this.http.post<any>(serverPrefix + '/v1/createTask', jsonString, requestOptions)
                 .pipe(
                     timeoutWith(requestTimeout, throwError(requestTimeoutMessage)),
                     map(response => {
                         // json response is auto-converted to an object
-                        if (response && response.status) {
-                            if (response.status !== goodResponse) {
+                        if (response && response.requestStatus) {
+                            if (response.requestStatus !== goodResponse) {
                                 reject(response);
                             } else {
                                 resolve(response);

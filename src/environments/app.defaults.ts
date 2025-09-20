@@ -3,7 +3,7 @@ export const AppDefaults = {
     appTitle: 'T-Mobile Assessment Application',
     requestTimeout: 10000,
     requestTimeoutMessage: 'The Request Has Timed Out',
-    goodResponse: true,
+    goodResponse: 'OK',
     loadingImagePart1: 'data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVk',
     loadingImagePart2: 'IHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzk',
     loadingImagePart3: 'YDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIf',

@@ -1,2 +1,25 @@
 <h2 class="full-width" align="center"> {{sectionTitle}} </h2>
 
+<mat-card>
+
+    <form [formGroup]="findByStatusForm" validate (ngSubmit)="submitFormData(findByStatusForm.value)" fxLayout="column wrap"
+        fxLayoutAlign="center center" fxLayoutGap="10px" autocomplete="off">
+
+        <mat-card-content class="form-container">
+            
+            <!-- CONTENT HERE -->
+            <mat-form-field>
+                <mat-label>Task Status</mat-label>
+                <input  matInput  type="text" placeholder="Enter: Task Status" formControlName="taskStatus"  required>
+                <mat-error *ngIf="hasError('taskStatus', 'required')">Task Status is required</mat-error>
+            </mat-form-field>
+        </mat-card-content>
+
+        <mat-card-actions class="form-button-row">
+            <!-- REGISTER BUTTON -->
+            <button mat-raised-button type="submit" [disabled]="loading" color="primary">Submit Task</button> 
+            <img *ngIf="loading" src="{{appDef.loadingImagePart1}}{{appDef.loadingImagePart2}}{{appDef.loadingImagePart3}}{{appDef.loadingImagePart4}}{{appDef.loadingImagePart5}}{{appDef.loadingImagePart6}}{{appDef.loadingImagePart7}}{{appDef.loadingImagePart8}}{{appDef.loadingImagePart9}}" />
+            <button mat-raised-button type="button" (click)= 'clearFormData()' color="primary">Clear</button>
+        </mat-card-actions>
+    </form>
+</mat-card>
