@@ -3,4 +3,5 @@ export class TaskRow {
   taskName: string; // required
   taskDescription: string;  
   taskStatus: string;     // required
+  taskCreateDate: string
 }
