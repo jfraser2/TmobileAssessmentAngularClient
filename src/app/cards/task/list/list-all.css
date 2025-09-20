@@ -3,7 +3,6 @@
 }
 
 .bordered-toolbar-row {
-  border-bottom: 1px solid #ccc; /* solid line at bottom with color change to any desired color and thickness */
   display: flex;
   justify-content: center; /* Centers items horizontally */
   align-items: center;    /* Centers items vertically (if container has height) */

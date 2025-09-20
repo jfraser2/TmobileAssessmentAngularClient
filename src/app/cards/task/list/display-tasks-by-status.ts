@@ -1,15 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { RouterLink, ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common'; // Import CommonModule for ngIf
 import { AlertDirective } from '../../../directives/alert-directive';
 import { SearchByStatusService } from '../../../services/task/search-by-status-service';
 import { AppDefaults } from '../../../../environments/app.defaults';
-
+import { MatTableModule } from '@angular/material/table';
 
 @Component({
   selector: 'app-display-tasks-by-status',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink, MatTableModule],
   templateUrl: './display-tasks-by-status.html',
   styleUrl: './display-tasks-by-status.css',
   providers: [SearchByStatusService, AlertDirective]  
@@ -23,8 +23,12 @@ export class DisplayTasksByStatus implements OnInit, OnDestroy {
 	taskJsonData: string | null = null;
 	paramSubscription: Subscription;
 	public isLoaded : boolean =  false;	
+	public totalRows : number = 0;
+	matColumnDefIds : string[];
+	taskJavascriptArrayData: any[];
 	
 	constructor(public router: Router, public currentRoute: ActivatedRoute, public searchByStatusService: SearchByStatusService, public alertDirective: AlertDirective) {
+		this.matColumnDefIds = ['id', 'taskName', 'taskDescription', 'taskStatus', 'taskCreateDat']; // Define the matColumnDefIds
 	}
 	
 	ngOnInit() {
@@ -35,9 +39,14 @@ export class DisplayTasksByStatus implements OnInit, OnDestroy {
 	  this.sectionTitle = "List By Task Status: " + this.taskStatusParam;
 		
 	  this.executeFindByStatus();
-//      this.isLoaded = true;
 	  if (this.taskJsonData === null) {
+		this.isLoaded = false;				
 		this.router.navigate([{ outlets: { entirePageContent: ['app-find-by-status'] } }]);	
+	  } else {
+		// create an array of JavaScript objects 
+		this.taskJavascriptArrayData = JSON.parse(this.taskJsonData);
+		this.totalRows = this.taskJavascriptArrayData.length;
+	    this.isLoaded = true;
 	  }
 	}
 	
@@ -59,7 +68,6 @@ export class DisplayTasksByStatus implements OnInit, OnDestroy {
 	            /* good Result */
 				this.taskJsonData = res.TaskEntity;
 	            this.loading = false;
-				this.isLoaded = true;
 	        },
 	        (err) => { // Error
 	            const errMessage = this.alertDirective.errorToString(err.message);
@@ -67,7 +75,6 @@ export class DisplayTasksByStatus implements OnInit, OnDestroy {
 	            this.alertDirective.openDialog('Find By Task Status Error', errMessage, 3);
 				this.taskJsonData = null;
 	            this.loading = false;
-				this.isLoaded = false;				
 	        }
 	    ); // end the then function
 

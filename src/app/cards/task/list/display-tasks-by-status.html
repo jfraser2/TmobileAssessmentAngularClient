@@ -1,3 +1,44 @@
 <div *ngIf="isLoaded == true">
   <h2 class="full-width" align="center"> {{sectionTitle}} </h2>
+  <h3 class="full-width" align="center">{{'Total Number of Rows: ' + totalRows}}</h3>
+  
+  <mat-toolbar color="primary">
+    <mat-toolbar-row class="bordered-toolbar-row">
+        <button mat-fab [routerLink]="[{ outlets: { entirePageContent: ['app-add'] } }]">Home</button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  
+  <table mat-table [dataSource]="taskJavascriptArrayData">
+
+    <!-- Column Definitions -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> Task Id </th>
+      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="taskName">
+      <th mat-header-cell *matHeaderCellDef> Task Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.taskName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="taskDescription">
+      <th mat-header-cell *matHeaderCellDef> Task Description </th>
+      <td mat-cell *matCellDef="let element"> {{element.taskDescription}} </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="taskStatus">
+      <th mat-header-cell *matHeaderCellDef> Task Status </th>
+      <td mat-cell *matCellDef="let element"> {{element.taskStatus}} </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="taskCreateDate">
+      <th mat-header-cell *matHeaderCellDef> Date Task Created </th>
+      <td mat-cell *matCellDef="let element"> {{element.taskCreateDate}} </td>
+    </ng-container>
+
+    <!-- Header and Row Definitions -->
+    <tr mat-header-row *matHeaderRowDef="matColumnDefIds"></tr>
+    <tr mat-row *matRowDef="let row; columns: matColumnDefIds;"></tr>
+
+  </table>  
 </div>  
