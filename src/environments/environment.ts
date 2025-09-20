@@ -6,7 +6,7 @@
 
 export const environment = {
   production: false,
-  serverUrlPrefix: '/fdicWar/api/persistence'
+  serverUrlPrefix: '/rest/api'
 };
 
 /*
