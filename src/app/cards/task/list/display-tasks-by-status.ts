@@ -43,8 +43,8 @@ export class DisplayTasksByStatus implements OnInit, OnDestroy {
 	  });
 	  this.sectionTitle = "List By Task Status: " + this.taskStatusParam;
 		
+	  /* await makes the proess act like it is synchronous */
 	  let tempPromise = await this.executeFindByStatus();
-//	  this.taskJavascriptArrayData = this.executeFindByStatus();
 	  if (this.taskJavascriptArrayData === null) {
 		this.isLoaded = false;				
 		this.router.navigate([{ outlets: { entirePageContent: ['app-find-by-status'] } }]);	
@@ -74,7 +74,6 @@ export class DisplayTasksByStatus implements OnInit, OnDestroy {
 
 	    const findByStatusPromise = this.searchByStatusService.getFindByStatusPromise(this.taskStatusParam);
 		
-        /* await makes the proess act like it is synchronous
 	    /* then() is a function with two parameters. Each parameter is a function. Returns a brand new Promise for chaining */
 	    const newPromise = findByStatusPromise.then((res) => {
 			    console.log("good result was returned: " + res);

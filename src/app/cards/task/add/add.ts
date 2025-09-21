@@ -8,7 +8,7 @@ import { MatCardModule } from '@angular/material/card'; // Import MatCardModule
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common'; // Import CommonModule
+import { CommonModule } from '@angular/common'; // Import CommonModule for ngIf
 import { TaskRow } from '../../../models/task-row';
 
 @Component({

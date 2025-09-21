@@ -1,3 +1,48 @@
 <div *ngIf="isLoaded == true">
   <h2 class="full-width" align="center"> {{sectionTitle}} </h2>
+  <h3 class="full-width" align="center">{{'Total Number of Rows: ' + totalRows}}</h3>
+  
+  <!-- Create Scrolling Viewport -->
+<!--   
+  <cdk-virtual-scroll-viewport itemSize="48">
+-->  
+    <table mat-table [dataSource]="dataSource">
+
+      <!-- Column Definitions -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Task Id </th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="taskName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Task Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.taskName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="taskDescription">
+        <th mat-header-cell *matHeaderCellDef> Task Description </th>
+        <td mat-cell *matCellDef="let element"> {{element.taskDescription}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="taskStatus">
+        <th mat-header-cell *matHeaderCellDef> Task Status </th>
+        <td mat-cell *matCellDef="let element"> {{element.taskStatus}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="taskCreateDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Date Task Created </th>
+        <td mat-cell *matCellDef="let element"> {{element.taskCreateDate}} </td>
+      </ng-container>
+
+      <!-- Header and Row Definitions -->
+      <tr mat-header-row *matHeaderRowDef="matColumnDefIds"></tr>
+      <tr mat-row *matRowDef="let row; columns: matColumnDefIds;"></tr>      
+<!--       
+      <tr mat-row *cdkVirtualFor="let row of dataSource; trackBy: trackByFn"></tr>
+-->      
+
+    </table>
+<!--       
+  </cdk-virtual-scroll-viewport>
+-->  
 </div>  
