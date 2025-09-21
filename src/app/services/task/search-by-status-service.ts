@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders  } from '@angular/common/http';
 
-import { throwError } from 'rxjs';
+import { throwError, lastValueFrom } from 'rxjs'; // lastVaueFrom is For converting Observables to Promises
 import { timeoutWith, map, catchError } from 'rxjs/operators';
 
 import { AppDefaults } from '../../../environments/app.defaults';
@@ -16,7 +16,7 @@ import { SearchByStatusData } from '../../models/search-by-status-data';
 export class SearchByStatusService {
    constructor(private http: HttpClient) { }
 
-   getFindByStatusPromise(findTaskStatus:  string) {
+   getFindByStatusPromise(findTaskStatus:  string): Promise<any> {
        const requestTimeout = AppDefaults.requestTimeout;
        const requestTimeoutMessage = AppDefaults.requestTimeoutMessage;
        const goodResponse = AppDefaults.goodResponse;
@@ -53,7 +53,7 @@ export class SearchByStatusService {
                .pipe(
                    timeoutWith(requestTimeout, throwError(requestTimeoutMessage)),
                    map(response => {
-                       // json response is auto-converted to an object
+                       // json response is auto-converted to a javascript object
                        if (response && response.requestStatus) {
                            if (response.requestStatus !== goodResponse) {
                                reject(response);

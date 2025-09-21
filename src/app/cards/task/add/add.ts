@@ -24,7 +24,6 @@ export class Add  implements OnInit {
 	addTaskForm: FormGroup;
 	loading = false;
 	appDef = AppDefaults;
-	taskJsonData: string | null = null;
 	taskJavascriptData: TaskRow;
 	
 	@ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;	
@@ -60,10 +59,8 @@ export class Add  implements OnInit {
 
         /* then() is a function with two parameters. Each parameter is a function. Returns a brand new Promise for chaining */
         const newPromise = addTaskPromise.then((res) => {
-				/* good Result */
-				this.taskJsonData = res.TaskEntity;
-				// convert Json Object to JavaScript object 
-				this.taskJavascriptData = JSON.parse(this.taskJsonData);
+				/* good Result res is javascript */
+				this.taskJavascriptData = res.TaskEntity;
 
 				const dialogMessage = 'Created Task: ' + this.taskJavascriptData.taskName + ' with Id: ' + this.taskJavascriptData.id;
 			
@@ -71,7 +68,7 @@ export class Add  implements OnInit {
                 this.alertDirective.openDialog('Add Task', dialogMessage, 0);
                 this.loading = false;
             },
-            (err) => { // Error
+            (err) => { // Error err is a javascript object
                 const errMessage = this.alertDirective.errorToString(err.message);
                 /* status values: 0 - green, 1 - yellow, 2 - alert, 3 or more - red */
                 this.alertDirective.openDialog('Add Task Error', errMessage, 3);

@@ -1,11 +1,4 @@
 .example-viewport {
-  height: 400px; /* Set a fixed height for the viewport */
+  height: 100%; /* Set a fixed height for the viewport */
   width: 100%;
-}
-
-.bordered-toolbar-row {
-  display: flex;
-  justify-content: left; /* Centers items horizontally */
-  align-items: center;    /* Centers items vertically (if container has height) */
-  gap: 10px;            /* Adds space between buttons */
 }
