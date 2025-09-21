@@ -34,7 +34,7 @@ export class ListAll implements OnInit {
 	}
 
 	async ngOnInit() {
-	/* await makes the proess act like it is synchronous, it can only be run in a async function  */
+	/* await makes the process act like it is synchronous, it can only be run in a async function  */
   	  let tempPromise = await this.executeFindAllTasks();
   	  if (this.taskJavascriptArrayData === null) {
 		console.log("Search had an Error!!!!");

@@ -43,7 +43,7 @@ export class DisplayTasksByStatus implements OnInit, OnDestroy {
 	  });
 	  this.sectionTitle = "List By Task Status: " + this.taskStatusParam;
 		
-	  /* await makes the proess act like it is synchronous */
+	  /* await makes the process act like it is synchronous, it can only be run in a async function */
 	  let tempPromise = await this.executeFindByStatus();
 	  if (this.taskJavascriptArrayData === null) {
 		this.isLoaded = false;				
