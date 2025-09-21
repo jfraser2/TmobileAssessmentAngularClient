@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders  } from '@angular/common/http';
 
-import { throwError } from 'rxjs';
+import { throwError, lastValueFrom } from 'rxjs'; // lastVaueFrom is For converting Observables to Promises
 import { timeoutWith, map, catchError } from 'rxjs/operators';
 
 import { AppDefaults } from '../../../environments/app.defaults';
@@ -15,7 +15,7 @@ import { AddTaskData } from '../../models/add-task-data';
 export class AddTask {
     constructor(private http: HttpClient) { }
 
-    getAddTaskPromise(newTask: AddTaskData) {
+    async getAddTaskPromise(newTask: AddTaskData): Promise<any> {
         const requestTimeout = AppDefaults.requestTimeout;
         const requestTimeoutMessage = AppDefaults.requestTimeoutMessage;
         const goodResponse = AppDefaults.goodResponse;
@@ -52,7 +52,7 @@ export class AddTask {
                 .pipe(
                     timeoutWith(requestTimeout, throwError(requestTimeoutMessage)),
                     map(response => {
-                        // json response is auto-converted to an object
+                        // json response is auto-converted to a javascript object
                         if (response && response.requestStatus) {
                             if (response.requestStatus !== goodResponse) {
                                 reject(response);
