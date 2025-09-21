@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common'; // Import CommonModule
+import { TaskRow } from '../../../models/task-row';
 
 @Component({
   selector: 'app-add',
@@ -23,6 +24,9 @@ export class Add  implements OnInit {
 	addTaskForm: FormGroup;
 	loading = false;
 	appDef = AppDefaults;
+	taskJsonData: string | null = null;
+	taskJavascriptData: TaskRow;
+	
 	@ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;	
 	
 	constructor(public addTaskService: AddTask, public alertDirective: AlertDirective) {
@@ -56,8 +60,14 @@ export class Add  implements OnInit {
 
         /* then() is a function with two parameters. Each parameter is a function. Returns a brand new Promise for chaining */
         const newPromise = addTaskPromise.then((res) => {
-	                /* status values: 0 - green, 1 - yellow, 2 - alert, 3 or more - red */
-                const dialogMessage = res.message;
+				/* good Result */
+				this.taskJsonData = res.TaskEntity;
+				// convert Json Object to JavaScript object 
+				this.taskJavascriptData = JSON.parse(this.taskJsonData);
+
+				const dialogMessage = 'Created Task: ' + this.taskJavascriptData.taskName + ' with Id: ' + this.taskJavascriptData.id;
+			
+	            /* status values: 0 - green, 1 - yellow, 2 - alert, 3 or more - red */
                 this.alertDirective.openDialog('Add Task', dialogMessage, 0);
                 this.loading = false;
             },
