@@ -15,7 +15,7 @@ import { AddTaskData } from '../../models/add-task-data';
 export class AddTask {
     constructor(private http: HttpClient) { }
 
-    async getAddTaskPromise(newTask: AddTaskData): Promise<any> {
+    getAddTaskPromise(newTask: AddTaskData): Promise<any> {
         const requestTimeout = AppDefaults.requestTimeout;
         const requestTimeoutMessage = AppDefaults.requestTimeoutMessage;
         const goodResponse = AppDefaults.goodResponse;
