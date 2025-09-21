@@ -42,7 +42,6 @@ export class DisplayTasksByStatus implements OnInit, OnDestroy {
 	    // 'id' should match the parameter name defined in your route configuration
 	  });
 	  this.sectionTitle = "List By Task Status: " + this.taskStatusParam;
-	  this.dataSource = new MatTableDataSource<TaskRow>();
 		
 	  let tempPromise = await this.executeFindByStatus();
 //	  this.taskJavascriptArrayData = this.executeFindByStatus();
@@ -52,6 +51,7 @@ export class DisplayTasksByStatus implements OnInit, OnDestroy {
 	  } else {
 		console.log("Search did not have an error");
 		this.dataSource = new MatTableDataSource<TaskRow>(this.taskJavascriptArrayData);
+		this.dataSource.sort = this.sort;
 		this.totalRows = this.taskJavascriptArrayData.length;
 	    this.isLoaded = true;
 	  }
@@ -65,7 +65,7 @@ export class DisplayTasksByStatus implements OnInit, OnDestroy {
    	}
 	
 	ngAfterViewInit() {
-	  this.dataSource.sort = this.sort;
+//	  this.dataSource.sort = this.sort;
 	}	
 	
 	executeFindByStatus(): Promise<any> {
