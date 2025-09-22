@@ -6,14 +6,13 @@ import { AlertDirective } from '../../../directives/alert-directive';
 import { SearchByStatusService } from '../../../services/task/search-by-status-service';
 import { AppDefaults } from '../../../../environments/app.defaults';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { ScrollingModule } from '@angular/cdk/scrolling';
+import { ScrollingModule, CdkVirtualScrollViewport, CdkVirtualForOf } from '@angular/cdk/scrolling';
 import { TaskRow } from '../../../models/task-row';
 
 @Component({
   selector: 'app-display-tasks-by-status',
-  imports: [CommonModule, MatTableModule, ScrollingModule, MatPaginatorModule],
+  imports: [CommonModule, MatTableModule, ScrollingModule, CdkVirtualScrollViewport, CdkVirtualForOf],
   templateUrl: './display-tasks-by-status.html',
   styleUrl: './display-tasks-by-status.css',
   providers: [SearchByStatusService, AlertDirective]  
@@ -30,7 +29,8 @@ export class DisplayTasksByStatus implements OnInit, OnDestroy {
 	matColumnDefIds : string[];
 	taskJavascriptArrayData: TaskRow[];
 	dataSource = null;
-	@ViewChild(MatSort) sort!: MatSort;		
+	@ViewChild(MatSort) sort!: MatSort;
+	@ViewChild(CdkVirtualScrollViewport) viewport: CdkVirtualScrollViewport;			
 	
 	constructor(public router: Router, public currentRoute: ActivatedRoute, public searchByStatusService: SearchByStatusService, public alertDirective: AlertDirective) {
 		this.matColumnDefIds = ['id', 'taskName', 'taskDescription', 'taskStatus', 'taskCreateDate']; // Define the matColumnDefIds

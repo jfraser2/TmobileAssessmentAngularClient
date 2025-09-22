@@ -1,4 +1,29 @@
 .example-viewport {
-  height: 100%; /* Set a fixed height for the viewport */
+  height: 420px; /* Set a fixed height for the scrolling area */
   width: 100%;
 }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+td, th {
+  padding: 0px;
+  text-align: left;
+}
+
+thead tr {
+  height: 50px; /* Must match the itemSize from the viewport */
+  border-bottom: 1px solid;  
+}
+
+tbody tr {
+  height: 50px; /* Must match the itemSize from the viewport */
+  border-bottom: 1px solid;  
+}
+
+tbody tr:last-child { /* or .my-row-class:last-child */
+  border-bottom: none; /* Remove the bottom border from the last child */
+}
+
