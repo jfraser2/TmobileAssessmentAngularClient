@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common'; // Import CommonModule for ngIf
@@ -6,16 +6,16 @@ import { AlertDirective } from '../../../directives/alert-directive';
 import { SearchByStatusService } from '../../../services/task/search-by-status-service';
 import { AppDefaults } from '../../../../environments/app.defaults';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
+import { MatSortModule, MatSort } from '@angular/material/sort';
 import { ScrollingModule, CdkVirtualScrollViewport, CdkVirtualForOf } from '@angular/cdk/scrolling';
 import { TaskRow } from '../../../models/task-row';
 
 @Component({
   selector: 'app-display-tasks-by-status',
-  imports: [CommonModule, MatTableModule, ScrollingModule, CdkVirtualScrollViewport, CdkVirtualForOf],
+  imports: [CommonModule, MatTableModule, ScrollingModule, CdkVirtualScrollViewport, CdkVirtualForOf, MatSortModule],
   templateUrl: './display-tasks-by-status.html',
   styleUrl: './display-tasks-by-status.css',
-  providers: [SearchByStatusService, AlertDirective]  
+  providers: [SearchByStatusService, AlertDirective, MatSort]  
 })
 export class DisplayTasksByStatus implements OnInit, OnDestroy {
 	
@@ -29,8 +29,8 @@ export class DisplayTasksByStatus implements OnInit, OnDestroy {
 	matColumnDefIds : string[];
 	taskJavascriptArrayData: TaskRow[];
 	dataSource = null;
-	@ViewChild(MatSort) sort!: MatSort;
-	@ViewChild(CdkVirtualScrollViewport) viewport: CdkVirtualScrollViewport;			
+	@ViewChild(MatSort, {static: true}) sort!: MatSort;	
+//	@ViewChild(CdkVirtualScrollViewport) viewport: CdkVirtualScrollViewport;			
 	
 	constructor(public router: Router, public currentRoute: ActivatedRoute, public searchByStatusService: SearchByStatusService, public alertDirective: AlertDirective) {
 		this.matColumnDefIds = ['id', 'taskName', 'taskDescription', 'taskStatus', 'taskCreateDate']; // Define the matColumnDefIds
@@ -51,7 +51,12 @@ export class DisplayTasksByStatus implements OnInit, OnDestroy {
 	  } else {
 		console.log("Search did not have an error");
 		this.dataSource = new MatTableDataSource<TaskRow>(this.taskJavascriptArrayData);
-		this.dataSource.sort = this.sort;
+		if (null !== this.sort) {
+		  this.dataSource.sort = this.sort;
+	      console.log("Sort is not null");
+		} else {
+			console.log("Sort is null");
+		}
 		this.totalRows = this.taskJavascriptArrayData.length;
 	    this.isLoaded = true;
 	  }
@@ -63,10 +68,6 @@ export class DisplayTasksByStatus implements OnInit, OnDestroy {
 	    console.log("Did param undescribe");
 	  }
    	}
-	
-	ngAfterViewInit() {
-//	  this.dataSource.sort = this.sort;
-	}	
 	
 	executeFindByStatus(): Promise<any> {
 
