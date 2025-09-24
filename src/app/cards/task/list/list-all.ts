@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common'; // Import CommonModule for ngIf
 import { AlertDirective } from '../../../directives/alert-directive';
 import { ListAllTasks } from '../../../services/task/list-all-tasks';
@@ -15,7 +15,7 @@ import { TaskRow } from '../../../models/task-row';
   styleUrl: './list-all.css',
   providers: [ListAllTasks, AlertDirective, MatSort]  
 })
-export class ListAll implements OnInit, AfterViewInit {
+export class ListAll implements OnInit {
 	
 	sectionTitle: string;
 	loading : boolean = false;
@@ -25,8 +25,22 @@ export class ListAll implements OnInit, AfterViewInit {
 	matColumnDefIds : string[];
 	taskJavascriptArrayData: TaskRow[];
 	dataSource : MatTableDataSource<TaskRow> =  new MatTableDataSource<TaskRow>();
-	@ViewChild(MatSort) sort!: MatSort;	
-			
+//	@ViewChild(MatSort) sort: MatSort;
+	_sort!: MatSort;
+	@ViewChild(MatSort)
+	set sort(value: MatSort) {
+	  console.log("in method set sort()");	
+	  this.logSort(value);	
+	  this._sort = value;
+	  if (this.dataSource) {
+	    this.dataSource.sort = this._sort;
+	  }
+	}		
+	get sort(): MatSort {
+	  console.log("in method get sort()");	
+	  this.logSort(this._sort);	
+	  return this._sort;
+	}			
 
 	constructor(public listAllTasksService: ListAllTasks, public alertDirective: AlertDirective) {
 	  this.sectionTitle ="List All Tasks";
@@ -37,11 +51,10 @@ export class ListAll implements OnInit, AfterViewInit {
   	  let tempPromise = this.executeFindAllTasks();
 	}
 	
-	initSort() {
+	logSort(sortValue) {
 	  if (null !== this.dataSource && undefined !== this.dataSource) {	
-	    if (null !== this.sort && undefined !== this.sort) {
-	      this.dataSource.sort = this.sort;
-	      console.log("Sort is not null and not undefined: " + this.sort);
+	    if (null !== sortValue && undefined !== sortValue) {
+	      console.log("Sort is not null and not undefined: " + sortValue);
 	    } else {
 	      console.log("Sort is null or undefined");
 	    }
@@ -49,10 +62,6 @@ export class ListAll implements OnInit, AfterViewInit {
 	      console.log("dataSource is null or undefined");
 	  }	
 	}
-	
-	ngAfterViewInit() {
-	  this.initSort();	
-	}  	
 
 	/* a Promise execution is asynchronous */
 	executeFindAllTasks(): Promise<any> {
