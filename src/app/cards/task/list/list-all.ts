@@ -25,7 +25,7 @@ export class ListAll implements OnInit, AfterViewInit {
 	matColumnDefIds : string[];
 	taskJavascriptArrayData: TaskRow[];
 	dataSource : MatTableDataSource<TaskRow> =  new MatTableDataSource<TaskRow>();
-	@ViewChild(MatSort, {static: true}) sort!: MatSort;	
+	@ViewChild(MatSort) sort!: MatSort;	
 			
 
 	constructor(public listAllTasksService: ListAllTasks, public alertDirective: AlertDirective) {
@@ -37,17 +37,21 @@ export class ListAll implements OnInit, AfterViewInit {
   	  let tempPromise = this.executeFindAllTasks();
 	}
 	
-	ngAfterViewInit() {
-	  if (null != this.dataSource) {	
-	    if (null !== this.sort) {
-		  this.dataSource.sort = this.sort;
-		  console.log("Sort is not null");
+	initSort() {
+	  if (null !== this.dataSource && undefined !== this.dataSource) {	
+	    if (null !== this.sort && undefined !== this.sort) {
+	      this.dataSource.sort = this.sort;
+	      console.log("Sort is not null and not undefined: " + this.sort);
 	    } else {
-		  console.log("Sort is null");
+	      console.log("Sort is null or undefined");
 	    }
 	  } else {
-		console.log("dataSource is null");
+	      console.log("dataSource is null or undefined");
 	  }	
+	}
+	
+	ngAfterViewInit() {
+	  this.initSort();	
 	}  	
 
 	/* a Promise execution is asynchronous */

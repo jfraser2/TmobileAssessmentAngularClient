@@ -46,17 +46,21 @@ export class DisplayTasksByStatus implements OnInit, AfterViewInit, OnDestroy {
 	  let tempPromise = this.executeFindByStatus();
 	}
 	
-	ngAfterViewInit() {
-	  if (null != this.dataSource) {	
-	    if (null !== this.sort) {
-		  this.dataSource.sort = this.sort;
-		  console.log("Sort is not null");
+	initSort() {
+	  if (null !== this.dataSource && undefined !== this.dataSource) {	
+	    if (null !== this.sort && undefined !== this.sort) {
+	      this.dataSource.sort = this.sort;
+	      console.log("Sort is not null and not undefined: " + this.sort);
 	    } else {
-		  console.log("Sort is null");
+	      console.log("Sort is null or undefined");
 	    }
 	  } else {
-		console.log("dataSource is null");
+	      console.log("dataSource is null or undefined");
 	  }	
+	}
+	
+	ngAfterViewInit() {
+	  this.initSort();	
 	}
 	  	
 	ngOnDestroy() {
