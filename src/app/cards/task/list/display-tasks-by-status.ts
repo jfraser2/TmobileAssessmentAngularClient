@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common'; // Import CommonModule for ngIf
@@ -17,18 +17,18 @@ import { TaskRow } from '../../../models/task-row';
   styleUrl: './display-tasks-by-status.css',
   providers: [SearchByStatusService, AlertDirective, MatSort]  
 })
-export class DisplayTasksByStatus implements OnInit, OnDestroy {
+export class DisplayTasksByStatus implements OnInit, AfterViewInit, OnDestroy {
 	
 	sectionTitle: string;
 	taskStatusParam: string | null = null;
-	loading = false;
+	loading: boolean = false;
 	appDef = AppDefaults;
 	paramSubscription: Subscription;
-	public isLoaded : boolean =  false;	
-	public totalRows : number = 0;
-	matColumnDefIds : string[];
+	public isLoaded: boolean =  false;	
+	public totalRows: number = 0;
+	matColumnDefIds: string[];
 	taskJavascriptArrayData: TaskRow[];
-	dataSource = null;
+	dataSource: MatTableDataSource<TaskRow> =  new MatTableDataSource<TaskRow>();
 	@ViewChild(MatSort, {static: true}) sort!: MatSort;	
 //	@ViewChild(CdkVirtualScrollViewport) viewport: CdkVirtualScrollViewport;			
 	
@@ -36,39 +36,37 @@ export class DisplayTasksByStatus implements OnInit, OnDestroy {
 		this.matColumnDefIds = ['id', 'taskName', 'taskDescription', 'taskStatus', 'taskCreateDate']; // Define the matColumnDefIds
 	}
 	
-	async ngOnInit() {
+	ngOnInit() {
 	  this.paramSubscription = this.currentRoute.paramMap.subscribe(params => {
 	    this.taskStatusParam = params.get('taskStatus');
 	    // 'id' should match the parameter name defined in your route configuration
 	  });
 	  this.sectionTitle = "List By Task Status: " + this.taskStatusParam;
 		
-	  /* await makes the process act like it is synchronous, it can only be run in a async function */
-	  let tempPromise = await this.executeFindByStatus();
-	  if (this.taskJavascriptArrayData === null) {
-		this.isLoaded = false;				
-		this.router.navigate([{ outlets: { entirePageContent: ['app-find-by-status'] } }]);	
-	  } else {
-		console.log("Search did not have an error");
-		this.dataSource = new MatTableDataSource<TaskRow>(this.taskJavascriptArrayData);
-		if (null !== this.sort) {
-		  this.dataSource.sort = this.sort;
-	      console.log("Sort is not null");
-		} else {
-			console.log("Sort is null");
-		}
-		this.totalRows = this.taskJavascriptArrayData.length;
-	    this.isLoaded = true;
-	  }
+	  let tempPromise = this.executeFindByStatus();
 	}
 	
+	ngAfterViewInit() {
+	  if (null != this.dataSource) {	
+	    if (null !== this.sort) {
+		  this.dataSource.sort = this.sort;
+		  console.log("Sort is not null");
+	    } else {
+		  console.log("Sort is null");
+	    }
+	  } else {
+		console.log("dataSource is null");
+	  }	
+	}
+	  	
 	ngOnDestroy() {
 	  if (this.paramSubscription) {
 	    this.paramSubscription.unsubscribe();
-	    console.log("Did param undescribe");
+	    console.log("Did param unsubscribe");
 	  }
    	}
 	
+	/* a Promise execution is asynchronous */
 	executeFindByStatus(): Promise<any> {
 
 	    console.log('Search Task Status is: ' + this.taskStatusParam);
@@ -81,6 +79,10 @@ export class DisplayTasksByStatus implements OnInit, OnDestroy {
 	            /* good Result res is javascript */
 				this.taskJavascriptArrayData =  res.TaskEntity;
 	            this.loading = false;
+				console.log("Search did not have an error");
+				this.dataSource.data = this.taskJavascriptArrayData;
+				this.totalRows = this.taskJavascriptArrayData.length;
+				this.isLoaded = true;
 	        },
 	        (err) => { // Error err is a javascript object
 				this.taskJavascriptArrayData =  null;
@@ -88,6 +90,8 @@ export class DisplayTasksByStatus implements OnInit, OnDestroy {
 	            /* status values: 0 - green, 1 - yellow, 2 - alert, 3 or more - red */
 	            this.alertDirective.openDialog('Find By Task Status Error', errMessage, 3);
 	            this.loading = false;
+				this.isLoaded = false;				
+				this.router.navigate([{ outlets: { entirePageContent: ['app-find-by-status'] } }]);	
 	        }
 	    ); // end the then function
 
