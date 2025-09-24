@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common'; // Import CommonModule for ngIf
@@ -17,7 +17,7 @@ import { TaskRow } from '../../../models/task-row';
   styleUrl: './display-tasks-by-status.css',
   providers: [SearchByStatusService, AlertDirective, MatSort]  
 })
-export class DisplayTasksByStatus implements OnInit, AfterViewInit, OnDestroy {
+export class DisplayTasksByStatus implements OnInit, OnDestroy {
 	
 	sectionTitle: string;
 	taskStatusParam: string | null = null;
@@ -29,8 +29,23 @@ export class DisplayTasksByStatus implements OnInit, AfterViewInit, OnDestroy {
 	matColumnDefIds: string[];
 	taskJavascriptArrayData: TaskRow[];
 	dataSource: MatTableDataSource<TaskRow> =  new MatTableDataSource<TaskRow>();
-	@ViewChild(MatSort, {static: true}) sort!: MatSort;	
-//	@ViewChild(CdkVirtualScrollViewport) viewport: CdkVirtualScrollViewport;			
+//	@ViewChild(CdkVirtualScrollViewport) viewport: CdkVirtualScrollViewport;
+//	@ViewChild(MatSort, {static: true}) sort!: MatSort;	
+    _sort!: MatSort;
+    @ViewChild(MatSort)
+    set sort(value: MatSort) {
+      console.log("in method set sort()");	
+      this.logSort(value);	
+      this._sort = value;
+      if (this.dataSource) {
+        this.dataSource.sort = this._sort;
+      }
+    }		
+    get sort(): MatSort {
+      console.log("in method get sort()");	
+      this.logSort(this._sort);	
+      return this._sort;
+    }						
 	
 	constructor(public router: Router, public currentRoute: ActivatedRoute, public searchByStatusService: SearchByStatusService, public alertDirective: AlertDirective) {
 		this.matColumnDefIds = ['id', 'taskName', 'taskDescription', 'taskStatus', 'taskCreateDate']; // Define the matColumnDefIds
@@ -46,11 +61,10 @@ export class DisplayTasksByStatus implements OnInit, AfterViewInit, OnDestroy {
 	  let tempPromise = this.executeFindByStatus();
 	}
 	
-	initSort() {
+	logSort(sortValue) {
 	  if (null !== this.dataSource && undefined !== this.dataSource) {	
-	    if (null !== this.sort && undefined !== this.sort) {
-	      this.dataSource.sort = this.sort;
-	      console.log("Sort is not null and not undefined: " + this.sort);
+	    if (null !== sortValue && undefined !== sortValue) {
+	      console.log("Sort is not null and not undefined: " + sortValue);
 	    } else {
 	      console.log("Sort is null or undefined");
 	    }
@@ -59,10 +73,6 @@ export class DisplayTasksByStatus implements OnInit, AfterViewInit, OnDestroy {
 	  }	
 	}
 	
-	ngAfterViewInit() {
-	  this.initSort();	
-	}
-	  	
 	ngOnDestroy() {
 	  if (this.paramSubscription) {
 	    this.paramSubscription.unsubscribe();
